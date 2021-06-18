@@ -1,0 +1,23 @@
+---
+title: Leaderless Replication
+author: Stack Underflow
+date: '2021-06-17'
+slug: leaderless-replication
+categories:
+  - Distributed System
+tags:
+  - Distributed System
+  - Database
+---
+
+# introduction
+The typical approach for replication is a leader-follower system, where the leader broadcast changes to the followers, like the diagram below.
+
+However, another style is also used in systems like Cassandra and Riak, where clients send requests to server nodes concurrently, just like the diagram below. There are no difference between leaders and followers in such systems, so they are called _leaderless replication_. they are also called _dynamo-style_ system because the first system introducing such style is _dynamo_ from Amazon.
+
+What's the challenges when designing dynamo style system? How are they solved in real-world systems? This article will explain it.
+
+# Replication
+
+Generally leaderless replication works by client sending concurrent read and write requests to servers, just like in the diagram above. However, if clients only read from one replica, they may get stale data as updates may not have been replicated to all replicas.
+
